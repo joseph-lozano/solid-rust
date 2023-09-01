@@ -119,7 +119,7 @@ fn find_asset(asset: Asset) -> String {
     };
     std::fs::read_dir("frontend/dist/assets")
         .unwrap()
-        .filter_map(|entry| {
+        .find_map(|entry| {
             let entry = entry.unwrap();
             let path = entry.path();
             if path.is_file() {
@@ -131,6 +131,5 @@ fn find_asset(asset: Asset) -> String {
             };
             None
         })
-        .next()
         .unwrap()
 }
