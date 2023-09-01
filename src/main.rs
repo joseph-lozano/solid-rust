@@ -1,12 +1,5 @@
-use axum::{
-    body::Body,
-    http::Request,
-    response::{Html, IntoResponse},
-    routing::get,
-    Router,
-};
+use axum::{response::Html, routing::get, Router};
 use std::net::SocketAddr;
-use tower::ServiceExt;
 use tower_http::{services::ServeDir, trace::TraceLayer};
 
 #[tokio::main]
@@ -18,25 +11,12 @@ async fn main() {
 
     tracing_subscriber::fmt::init();
 
-    async fn serve_dir(request: Request<Body>) -> impl IntoResponse {
-        let mut headers = axum::http::HeaderMap::new();
-        headers.append(
-            "Cache-Control",
-            "max-age=31536000, immutable".parse().unwrap(),
-        );
-        (
-            headers,
-            ServeDir::new("frontend/dist/assets").oneshot(request).await,
-        )
-    }
-
     let index_html = gen_index_html();
 
     let app = Router::new()
         .route("/", get(index_html))
         .route("/api/hello", get(handle_hello))
-        .nest_service("/assets", get(serve_dir))
-        .fallback_service(ServeDir::new("frontend/dist/"));
+        .fallback_service(ServeDir::new("frontend/dist"));
 
     let addr = SocketAddr::from(([0, 0, 0, 0], port));
     tracing::debug!("listening {}", addr);
@@ -46,7 +26,7 @@ async fn main() {
     axum::Server::bind(&addr)
         .serve(app.layer(TraceLayer::new_for_http()).into_make_service())
         .await
-        .unwrap();
+        .unwrap()
 }
 
 async fn handle_hello() -> &'static str {
@@ -75,8 +55,6 @@ fn gen_index_html() -> Html<String> {
             js_file = js_file
         )
     };
-
-    // println!("{vite}");
 
     Html(format!(
         r#"

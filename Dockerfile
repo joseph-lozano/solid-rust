@@ -1,17 +1,21 @@
 FROM node:18 AS node_builder
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
 
 WORKDIR /app
-COPY frontend/package.json frontend/package-lock.json frontend/
-WORKDIR /app/frontend/
-RUN npm install
-COPY frontend/ /app/frontend/
-RUN npm run build
+COPY frontend/package.json frontend/pnpm-lock.yaml frontend/
 
-FROM rust:1.71 AS rust_builder
+WORKDIR /app/frontend/
+RUN pnpm install
+
+COPY frontend/ /app/frontend/
+RUN pnpm run build
+
+FROM rust:1.72 AS rust_builder
 WORKDIR /app
 
 COPY Cargo.toml Cargo.lock ./
-COPY --from=node_builder /app/frontend/dist ./frontend/dist
 COPY src ./src
 
 RUN cargo build --release
