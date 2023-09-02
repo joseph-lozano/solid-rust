@@ -3,11 +3,7 @@ import {
   QueryClientProvider,
   createQuery,
 } from "@tanstack/solid-query";
-import {
-  Match,
-  Switch,
-  createSignal
-} from "solid-js";
+import { Match, Switch, createSignal } from "solid-js";
 
 const queryClient = new QueryClient();
 

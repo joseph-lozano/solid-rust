@@ -18,7 +18,7 @@ just dev
 
 ## Depoloyment
 
-Just use the Dockerfile. I have tested deployment on [Railway](https://railway.app).
+Just use the Dockerfile. I have tested deployment on [Railway](https://railway.app) at https://solid-rust.up.railway.app/.
 
 ### I want to use React
 
