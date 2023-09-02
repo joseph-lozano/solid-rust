@@ -25,7 +25,7 @@ function Demo() {
   const [count, setCount] = createSignal(0);
   const query = createQuery(
     () => ["hello"],
-    () => fetch("http://localhost:3000/api/hello").then((res) => res.text()),
+    () => fetch("/api/hello").then((res) => res.text()),
   );
 
   return (
