@@ -9,6 +9,7 @@
 3. Install needed dependencies:
 
 4. Run dev server. This will automatically download node dependencies.
+
 ```bash
 cargo install just
 just setup
@@ -28,10 +29,11 @@ if the generated assets are named something other than `index.css` or `index.js`
 ### I want to rename the project
 
 Replace `solid-rust` with your project name in the follwing files:
-* `justfile`
-* `Cargo.toml`
-* `Cargo.lock`
-* `Dockerfile`
+
+- `justfile`
+- `Cargo.toml`
+- `Cargo.lock`
+- `Dockerfile`
 
 ## Contributing
 
