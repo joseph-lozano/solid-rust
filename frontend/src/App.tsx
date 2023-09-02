@@ -1,15 +1,13 @@
 import {
-  Match,
-  Suspense,
-  Switch,
-  createResource,
-  createSignal,
-} from "solid-js";
-import {
   QueryClient,
   QueryClientProvider,
   createQuery,
 } from "@tanstack/solid-query";
+import {
+  Match,
+  Switch,
+  createSignal
+} from "solid-js";
 
 const queryClient = new QueryClient();
 
